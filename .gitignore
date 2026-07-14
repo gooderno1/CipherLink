@@ -1,0 +1,10 @@
+node_modules/
+dist/
+coverage/
+local_dev_work/*
+!local_dev_work/.gitkeep
+.env
+.env.*
+*.log
+*.age
+*.identity

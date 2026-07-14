@@ -1,0 +1,298 @@
+export type LanguagePreference = "auto" | "zh" | "en";
+export type UiLanguage = "zh" | "en";
+
+const zh = {
+  "command.create": "创建加密文档",
+  "command.changePassword": "修改身份密码",
+  "command.importIdentity": "导入受保护的 age 身份",
+  "command.migrateAge": "为当前 .md.age 文件建立公开信封",
+  "command.unlock": "解锁会话",
+  "command.lock": "锁定会话",
+  "storage.local": "独立存储",
+  "storage.gateway": "网关存储",
+  "common.unknown": "未知",
+  "settings.general": "常规",
+  "settings.language": "界面语言",
+  "settings.languageDesc": "自动模式优先使用 Obsidian 或系统语言；无法识别时使用中文。切换后重新加载插件可更新命令名称。",
+  "settings.languageAuto": "自动检测",
+  "settings.languageZh": "中文",
+  "settings.languageEn": "English",
+  "settings.getStarted": "开始使用",
+  "settings.notInitialized": "尚未设置加密身份",
+  "settings.notInitializedDesc": "可在这里设置密码，也可在首次创建加密文档时设置。",
+  "settings.setup": "设置密码",
+  "settings.import": "导入身份",
+  "settings.createSection": "加密文档",
+  "settings.create": "创建加密文档",
+  "settings.createDesc": "按 Obsidian 的新建文档位置直接创建未命名加密文档，之后可在文件列表中重命名。",
+  "settings.standalone": "独立存储",
+  "settings.objectsFolder": "密文对象目录",
+  "settings.objectsFolderDesc": "age 加密的私有正文保存在这里",
+  "settings.defaultStorage": "默认存储方式",
+  "settings.gateway": "可选网关",
+  "settings.gatewayDesc": "独立使用无需配置。连接 MemoLoomSecure 等兼容网关后，可获得版本冲突控制、审计和恢复能力。",
+  "settings.gatewayUrl": "网关地址",
+  "settings.gatewayUrlDesc": "兼容 CipherLink 网关的 HTTPS 地址",
+  "settings.gatewayRecipient": "网关 age recipient",
+  "settings.gatewayRecipientDesc": "从网关自动读取；它是公开加密标识，不是秘密",
+  "settings.gatewayConfig": "网关配置",
+  "settings.gatewayConfigDesc": "协议 {protocol}；主节点 epoch {epoch}",
+  "settings.refresh": "刷新",
+  "settings.session": "会话",
+  "settings.unlocked": "已解锁",
+  "settings.locked": "已锁定",
+  "settings.sessionDesc": "锁定会清除插件视图中的解密身份和正文引用",
+  "settings.lockNow": "立即锁定",
+  "settings.unlock": "解锁",
+  "settings.changePassword": "修改密码",
+  "modal.setupTitle": "设置 CipherLink",
+  "modal.setupDesc": "设置用于保护加密身份包的密码。CipherLink 无法找回该密码。",
+  "modal.password": "密码",
+  "modal.confirmPassword": "确认密码",
+  "modal.createIdentity": "建立加密身份",
+  "modal.passwordMin": "密码至少需要 {min} 位。",
+  "modal.passwordMismatch": "两次输入的密码不一致。",
+  "modal.unlockTitle": "解锁 CipherLink",
+  "modal.unlock": "解锁",
+  "modal.changePasswordTitle": "修改身份密码",
+  "modal.currentPassword": "当前密码",
+  "modal.newPassword": "新密码",
+  "modal.confirmNewPassword": "确认新密码",
+  "modal.changePassword": "修改密码",
+  "modal.newPasswordMismatch": "两次输入的新密码不一致。",
+  "modal.importTitle": "导入受保护的 age 身份",
+  "modal.importDesc": "导入兼容的密码保护身份包。私有身份会重新加密后保存到 CipherLink。",
+  "modal.packagePath": "身份包路径",
+  "modal.packagePathDesc": "填写当前 vault 内受保护身份包的相对路径。",
+  "modal.importIdentity": "导入身份",
+  "modal.createTitle": "创建加密文档",
+  "modal.title": "标题",
+  "modal.aliases": "别名",
+  "modal.aliasesDesc": "用逗号分隔的公开别名",
+  "modal.tags": "标签",
+  "modal.tagsDesc": "用逗号分隔的公开标签",
+  "modal.relationships": "公开关系",
+  "modal.relationshipsDesc": "每行一个文档名称；锁定时这些链接仍然可见",
+  "modal.storage": "存储方式",
+  "modal.create": "创建",
+  "modal.titleRequired": "必须填写标题。",
+  "modal.metadataTitle": "编辑公开元数据",
+  "modal.saveMetadata": "保存公开元数据",
+  "view.locked": "加密文档已锁定",
+  "view.unlock": "解锁",
+  "view.encryptedNote": "加密文档",
+  "view.privateBody": "加密正文",
+  "view.bold": "粗体",
+  "view.italic": "斜体",
+  "view.highlight": "高亮",
+  "view.strike": "删除线",
+  "view.wikilink": "双链",
+  "view.task": "任务",
+  "view.reading": "阅读模式",
+  "view.edit": "编辑",
+  "view.editMetadata": "编辑公开元数据",
+  "view.save": "保存",
+  "view.saveOk": "CipherLink 文档已保存。",
+  "view.saveFailed": "CipherLink 保存失败：{message}",
+  "view.openFailed": "无法打开加密文档",
+  "notice.unlocked": "CipherLink 已在当前 Obsidian 会话中解锁。",
+  "notice.locked": "CipherLink 已锁定。",
+  "notice.metadataUpdated": "公开元数据已更新。",
+  "notice.identityCreated": "CipherLink 身份已建立并解锁。",
+  "notice.passwordChanged": "CipherLink 身份密码已修改。",
+  "notice.identityImported": "受保护身份已导入并解锁。",
+  "notice.envelopeCreated": "公开信封已建立，原密文未被修改。",
+  "document.untitled": "未命名",
+  "envelope.lockedTitle": "加密内容",
+  "envelope.lockedDesc": "请使用 CipherLink 打开本文档，并解锁当前会话以查看或编辑私有正文。",
+  "envelope.relationships": "公开关系",
+  "envelope.noRelationships": "无公开关系",
+  "error.identityNotFound": "未找到受保护的身份包。",
+  "error.alreadyLinked": "该密文已经有 CipherLink 公开信封。",
+  "error.locked": "CipherLink 尚未解锁。",
+  "error.gatewayRecipient": "使用网关存储前，请先配置网关 age recipient。",
+  "error.gatewayProtocol": "不支持的网关协议版本：{version}。",
+  "error.identityMissing": "CipherLink 身份包不存在。",
+  "error.folderExists": "目标文件夹已存在，请重试。",
+  "error.fileExists": "目标文档已存在，请重试或重命名现有文档。",
+  "error.passwordInvalid": "密码错误或身份包无法解密。",
+  "error.notFound": "未找到所需文件或对象。",
+  "error.operationFailed": "操作失败，请检查设置或目标目录后重试。",
+} as const;
+
+type TranslationKey = keyof typeof zh;
+
+const en: Record<TranslationKey, string> = {
+  "command.create": "Create encrypted document",
+  "command.changePassword": "Change identity password",
+  "command.importIdentity": "Import protected age identity",
+  "command.migrateAge": "Create public envelope for current .md.age file",
+  "command.unlock": "Unlock session",
+  "command.lock": "Lock session",
+  "storage.local": "Standalone",
+  "storage.gateway": "Gateway",
+  "common.unknown": "unknown",
+  "settings.general": "General",
+  "settings.language": "Interface language",
+  "settings.languageDesc": "Auto follows the Obsidian or system language and falls back to Chinese. Reload the plugin after switching to update command names.",
+  "settings.languageAuto": "Auto-detect",
+  "settings.languageZh": "中文",
+  "settings.languageEn": "English",
+  "settings.getStarted": "Get started",
+  "settings.notInitialized": "Encryption identity is not configured",
+  "settings.notInitializedDesc": "Set a password here, or set one when creating the first encrypted document.",
+  "settings.setup": "Set password",
+  "settings.import": "Import identity",
+  "settings.createSection": "Encrypted documents",
+  "settings.create": "Create encrypted document",
+  "settings.createDesc": "Create an untitled encrypted document in Obsidian's current new-note location, then rename it in the file explorer.",
+  "settings.standalone": "Standalone storage",
+  "settings.objectsFolder": "Ciphertext object folder",
+  "settings.objectsFolderDesc": "Age-encrypted private bodies are stored here",
+  "settings.defaultStorage": "Default storage",
+  "settings.gateway": "Optional gateway",
+  "settings.gatewayDesc": "No configuration is required for standalone use. Compatible gateways such as MemoLoomSecure add conflict control, audit, and recovery.",
+  "settings.gatewayUrl": "Gateway URL",
+  "settings.gatewayUrlDesc": "HTTPS endpoint for a compatible CipherLink gateway",
+  "settings.gatewayRecipient": "Gateway age recipient",
+  "settings.gatewayRecipientDesc": "Read from the gateway; it is a public encryption identifier, not a secret",
+  "settings.gatewayConfig": "Gateway configuration",
+  "settings.gatewayConfigDesc": "Protocol {protocol}; primary epoch {epoch}",
+  "settings.refresh": "Refresh",
+  "settings.session": "Session",
+  "settings.unlocked": "Unlocked",
+  "settings.locked": "Locked",
+  "settings.sessionDesc": "Locking removes decrypted identities and note bodies from plugin views",
+  "settings.lockNow": "Lock now",
+  "settings.unlock": "Unlock",
+  "settings.changePassword": "Change password",
+  "modal.setupTitle": "Set up CipherLink",
+  "modal.setupDesc": "Create a password for the encrypted identity package. CipherLink cannot recover this password.",
+  "modal.password": "Password",
+  "modal.confirmPassword": "Confirm password",
+  "modal.createIdentity": "Create encryption identity",
+  "modal.passwordMin": "Use at least {min} characters.",
+  "modal.passwordMismatch": "Passwords do not match.",
+  "modal.unlockTitle": "Unlock CipherLink",
+  "modal.unlock": "Unlock",
+  "modal.changePasswordTitle": "Change identity password",
+  "modal.currentPassword": "Current password",
+  "modal.newPassword": "New password",
+  "modal.confirmNewPassword": "Confirm new password",
+  "modal.changePassword": "Change password",
+  "modal.newPasswordMismatch": "New passwords do not match.",
+  "modal.importTitle": "Import protected age identity",
+  "modal.importDesc": "Import a compatible password-protected identity package. The private identity is re-encrypted into CipherLink storage.",
+  "modal.packagePath": "Package path",
+  "modal.packagePathDesc": "Enter the vault-relative path to the protected identity package.",
+  "modal.importIdentity": "Import identity",
+  "modal.createTitle": "Create encrypted document",
+  "modal.title": "Title",
+  "modal.aliases": "Aliases",
+  "modal.aliasesDesc": "Comma-separated public aliases",
+  "modal.tags": "Tags",
+  "modal.tagsDesc": "Comma-separated public tags",
+  "modal.relationships": "Public relationships",
+  "modal.relationshipsDesc": "One document name per line; these links remain visible while locked",
+  "modal.storage": "Storage",
+  "modal.create": "Create",
+  "modal.titleRequired": "Title is required.",
+  "modal.metadataTitle": "Edit public metadata",
+  "modal.saveMetadata": "Save public metadata",
+  "view.locked": "Encrypted document is locked",
+  "view.unlock": "Unlock",
+  "view.encryptedNote": "Encrypted document",
+  "view.privateBody": "Encrypted body",
+  "view.bold": "Bold",
+  "view.italic": "Italic",
+  "view.highlight": "Highlight",
+  "view.strike": "Strikethrough",
+  "view.wikilink": "WikiLink",
+  "view.task": "Task",
+  "view.reading": "Reading view",
+  "view.edit": "Edit",
+  "view.editMetadata": "Edit public metadata",
+  "view.save": "Save",
+  "view.saveOk": "CipherLink document saved.",
+  "view.saveFailed": "CipherLink could not save: {message}",
+  "view.openFailed": "Could not open encrypted document",
+  "notice.unlocked": "CipherLink unlocked for this Obsidian session.",
+  "notice.locked": "CipherLink locked.",
+  "notice.metadataUpdated": "Public metadata updated.",
+  "notice.identityCreated": "CipherLink identity created and unlocked.",
+  "notice.passwordChanged": "CipherLink identity password changed.",
+  "notice.identityImported": "Protected identity imported and unlocked.",
+  "notice.envelopeCreated": "Public envelope created; ciphertext was not modified.",
+  "document.untitled": "Untitled",
+  "envelope.lockedTitle": "Encrypted content",
+  "envelope.lockedDesc": "Open this document with CipherLink and unlock the current session to view or edit its private body.",
+  "envelope.relationships": "Public relationships",
+  "envelope.noRelationships": "No public relationships",
+  "error.identityNotFound": "Protected identity package was not found.",
+  "error.alreadyLinked": "This ciphertext already has a CipherLink public envelope.",
+  "error.locked": "CipherLink is locked.",
+  "error.gatewayRecipient": "Configure the gateway age recipient before using gateway storage.",
+  "error.gatewayProtocol": "Unsupported gateway protocol version: {version}.",
+  "error.identityMissing": "CipherLink identity package is missing.",
+  "error.folderExists": "The target folder already exists. Try again.",
+  "error.fileExists": "The target document already exists. Rename it or try again.",
+  "error.passwordInvalid": "The password is incorrect or the identity package cannot be decrypted.",
+  "error.notFound": "The required file or object was not found.",
+  "error.operationFailed": "The operation failed. Check the settings or target folder and try again.",
+};
+
+export type Translator = (
+  key: TranslationKey,
+  variables?: Record<string, string | number>,
+) => string;
+
+export function translate(
+  language: UiLanguage,
+  key: TranslationKey,
+  variables: Record<string, string | number> = {},
+): string {
+  let value = (language === "zh" ? zh : en)[key];
+  for (const [name, replacement] of Object.entries(variables)) {
+    value = value.replaceAll(`{${name}}`, String(replacement));
+  }
+  return value;
+}
+
+export function detectLanguage(candidates: readonly string[]): UiLanguage {
+  for (const candidate of candidates) {
+    const normalized = candidate.trim().toLowerCase();
+    if (normalized.startsWith("zh")) return "zh";
+    if (normalized.startsWith("en")) return "en";
+  }
+  return "zh";
+}
+
+export function resolveLanguage(preference: LanguagePreference): UiLanguage {
+  if (preference !== "auto") return preference;
+  const candidates: string[] = [];
+  try {
+    const obsidianLanguage = window.localStorage.getItem("language");
+    if (obsidianLanguage) candidates.push(obsidianLanguage);
+  } catch {
+    // Local storage may be unavailable during early startup.
+  }
+  if (typeof document !== "undefined" && document.documentElement.lang) {
+    candidates.push(document.documentElement.lang);
+  }
+  if (typeof navigator !== "undefined") {
+    candidates.push(...navigator.languages);
+  }
+  return detectLanguage(candidates);
+}
+
+export function localizeError(cause: unknown, t: Translator): string {
+  const message = cause instanceof Error ? cause.message : String(cause);
+  if (/[\u3400-\u9fff]/u.test(message)) return message;
+  if (/folder already exists/i.test(message)) return t("error.folderExists");
+  if (/file already exists|already exists/i.test(message)) return t("error.fileExists");
+  if (/decrypt|passphrase|password|identity package recipient/i.test(message)) {
+    return t("error.passwordInvalid");
+  }
+  if (/not found|does not exist|missing/i.test(message)) return t("error.notFound");
+  return t("error.operationFailed");
+}
