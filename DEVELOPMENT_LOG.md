@@ -1,5 +1,12 @@
 # Development log
 
+## [2026-07-15] v0.1.1-dev.4 fix(security): make public envelopes read-only
+
+- Trigger: The user completed the dev.3 second clean-vault sequence, but the required scan found typed content inside one public CipherLink callout while all three ciphertext objects remained the empty-body size. Dev.3 acceptance therefore failed.
+- Cause: A focus request is an interaction hint, not a persistence boundary. Obsidian can focus its outer editor after the widget's mount microtask or accept input before the nested editor is ready.
+- Implementation: Mark the outer CodeMirror editor non-editable whenever its current document is a CipherLink envelope. The nested private CodeMirror remains editable, and public metadata continues through the explicit metadata action. For creation ergonomics, immediately blur the outer editor and focus the safe container on the owning window's next animation frame before the private editor takes over.
+- Acceptance boundary: Preserve both failed clean vaults. Test dev.4 in a third zero-state vault and require ciphertext growth, an unchanged public envelope, restart locking, and a clean persistence scan before preparing `0.1.1`.
+
 ## [2026-07-15] v0.1.1-dev.3 fix(security): prevent new-note focus fallthrough
 
 - Trigger: The user completed the dev.2 clean-vault GUI sequence, but the required post-test persistence scan found one private test line in a new note's public Markdown envelope while its ciphertext object remained the empty-body size. The GUI result is therefore not accepted as passed.

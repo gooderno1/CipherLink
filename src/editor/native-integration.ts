@@ -13,7 +13,19 @@ const SECURE_CALLOUT = /^(?:> \[!cipherlink\][^\n]*|> \[!locked\]\s*(?:加密内
 const controllers = new WeakMap<HTMLElement, SecureBodyController>();
 
 export function createSecureBodyEditorExtension(host: SecureBodyHost) {
-  return StateField.define<DecorationSet>({
+  const envelopeReadOnly = StateField.define<boolean>({
+    create: (state) => cipherLinkEnvelopeId(state.doc.toString()) !== null,
+    update: (value, transaction) => {
+      const previousFile = transaction.startState.field(editorInfoField, false)?.file?.path;
+      const currentFile = transaction.state.field(editorInfoField, false)?.file?.path;
+      if (transaction.docChanged || previousFile !== currentFile) {
+        return cipherLinkEnvelopeId(transaction.state.doc.toString()) !== null;
+      }
+      return value;
+    },
+    provide: (field) => EditorView.editable.from(field, (isEnvelope) => !isEnvelope),
+  });
+  const secureBody = StateField.define<DecorationSet>({
     create: (state) => buildDecorations(state, host),
     update: (decorations, transaction) => {
       const previousFile = transaction.startState.field(editorInfoField, false)?.file?.path;
@@ -25,6 +37,7 @@ export function createSecureBodyEditorExtension(host: SecureBodyHost) {
     },
     provide: (field) => EditorView.decorations.from(field),
   });
+  return [envelopeReadOnly, secureBody];
 }
 
 export function createSecureBodyPostProcessor(host: SecureBodyHost): MarkdownPostProcessor {
@@ -105,11 +118,15 @@ class SecureBodyWidget extends WidgetType {
 
   toDOM(view: EditorView): HTMLElement {
     const focusOnMount = this.host.consumeSecureBodyFocusRequest(this.envelopeId) || view.hasFocus;
-    const container = view.dom.ownerDocument.createElement("div");
+    const ownerDocument = view.dom.ownerDocument;
+    const ownerWindow = ownerDocument.defaultView;
+    const container = ownerDocument.createElement("div");
     container.className = "cipherlink-embedded";
     container.tabIndex = -1;
     if (focusOnMount) {
-      queueMicrotask(() => {
+      const activeElement = ownerDocument.activeElement;
+      if (ownerWindow && activeElement instanceof ownerWindow.HTMLElement) activeElement.blur();
+      ownerWindow?.requestAnimationFrame(() => {
         if (container.isConnected) container.focus({ preventScroll: true });
       });
     }

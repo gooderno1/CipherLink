@@ -82,8 +82,10 @@ test("native integration embeds ciphertext editing without placing plaintext in 
   assert.match(integration, /Decoration\.replace/);
   assert.match(integration, /createSecureBodyPostProcessor/);
   assert.match(integration, /other\.envelopeId === this\.envelopeId/);
+  assert.match(integration, /EditorView\.editable\.from\(field, \(isEnvelope\) => !isEnvelope\)/);
   assert.match(integration, /consumeSecureBodyFocusRequest\(this\.envelopeId\)/);
-  assert.match(integration, /queueMicrotask/);
+  assert.match(integration, /activeElement\.blur\(\)/);
+  assert.match(integration, /ownerWindow\?\.requestAnimationFrame/);
   assert.match(integration, /container\.focus\(\{ preventScroll: true \}\)/);
   assert.match(integration, /\(\) => focusOnMount/);
   assert.match(body, /host\.saveBody\(envelope, body, this\.version\)/);
