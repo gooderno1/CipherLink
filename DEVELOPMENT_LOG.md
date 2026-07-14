@@ -5,6 +5,7 @@
 - Reason: Public-release review found that identity storage hardcoded `.obsidian` and the import modal prefilled a MemoLoomSecure-specific path. Both conflict with custom configuration directories and the standalone product boundary.
 - Implementation: Derive the protected CipherLink identity path from `Vault.configDir` and the plugin manifest ID; discard the obsolete persisted path override; make identity import request an explicit vault-relative path without a private-project default. Reject absolute, traversing, or non-`.md.age` ciphertext references and require HTTPS for non-loopback gateways.
 - Verification: Strict type checking, 17 automated tests, the production build, source/bundle security scan, dependency audit, license inventory, release-workflow parsing, and installed-bundle hash comparison pass.
+- Publication: Publish only the reviewed snapshot to `gooderno1/CipherLink`; retain the earlier local development history on an unpushed archive branch. Public CI and private vulnerability reporting are enabled, but no release or tag exists.
 - Remaining: Complete mobile and exact-minimum-version acceptance before publishing `0.1.0` or submitting to the Community directory.
 
 ## [2026-07-14] v0.1.0-dev.2 feat(ui): make setup optional and add Chinese localization

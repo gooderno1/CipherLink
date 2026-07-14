@@ -36,7 +36,7 @@ Existing users can import a compatible protected age identity package and create
 - Development version: `v0.1.0-dev.8`
 - Last user-accepted desktop build: `v0.1.0-dev.7`
 - Store manifest target: `0.1.0`
-- Status: local beta candidate; no public release yet
+- Status: public beta source candidate; no GitHub release or Community directory submission yet
 - Acceptance: automated suite and key standalone desktop GUI flows passed; mobile and gateway deployment remain pending
 
 Implemented scope and acceptance status are tracked in [docs/DEVELOPMENT_PLAN.md](docs/DEVELOPMENT_PLAN.md).
