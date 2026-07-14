@@ -56,6 +56,7 @@ export default class CipherLinkPlugin extends Plugin implements SecureBodyHost {
   private gatewayProvider!: GatewayProvider;
   private readonly secureBodies = new Set<SecureBodyInstance>();
   private readonly envelopeFiles = new Map<string, TFile>();
+  private readonly pendingSecureBodyFocus = new Set<string>();
 
   async onload(): Promise<void> {
     await this.loadSettings();
@@ -208,6 +209,10 @@ export default class CipherLinkPlugin extends Plugin implements SecureBodyHost {
     return envelope;
   }
 
+  consumeSecureBodyFocusRequest(id: string): boolean {
+    return this.pendingSecureBodyFocus.delete(id);
+  }
+
   async loadBody(envelope: EnvelopeDescriptor): Promise<{ body: string; version?: string }> {
     const stored = await this.provider(envelope.provider).load(envelope);
     const plaintext = await decryptText(stored.ciphertext, this.session.identity);
@@ -321,7 +326,7 @@ export default class CipherLinkPlugin extends Plugin implements SecureBodyHost {
       { objectPath: file.path },
     );
     this.envelopeFiles.set(id, envelope);
-    await this.app.workspace.getLeaf(false).openFile(envelope, { active: true });
+    await this.openCreatedEnvelope(envelope, id);
     new Notice(this.t("notice.envelopeCreated"));
   }
 
@@ -372,7 +377,17 @@ export default class CipherLinkPlugin extends Plugin implements SecureBodyHost {
       location,
     );
     this.envelopeFiles.set(id, file);
-    await this.app.workspace.getLeaf(false).openFile(file, { active: true });
+    await this.openCreatedEnvelope(file, id);
+  }
+
+  private async openCreatedEnvelope(file: TFile, id: string): Promise<void> {
+    this.pendingSecureBodyFocus.add(id);
+    try {
+      await this.app.workspace.getLeaf(false).openFile(file, { active: true });
+    } catch (cause) {
+      this.pendingSecureBodyFocus.delete(id);
+      throw cause;
+    }
   }
 
   private provider(kind: "local" | "gateway"): SecureDocumentProvider {

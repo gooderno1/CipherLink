@@ -33,6 +33,7 @@ export interface SecureBodyHost {
     expectedVersion?: string,
   ): Promise<string | undefined>;
   resolveEnvelope(id: string, preferredFile?: TFile): Promise<EnvelopeDescriptor>;
+  consumeSecureBodyFocusRequest(id: string): boolean;
   editPublicMetadata(envelope: EnvelopeDescriptor): Promise<void>;
   registerSecureBody(instance: SecureBodyInstance): () => void;
 }

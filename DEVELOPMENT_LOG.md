@@ -1,5 +1,12 @@
 # Development log
 
+## [2026-07-15] v0.1.1-dev.3 fix(security): prevent new-note focus fallthrough
+
+- Trigger: The user completed the dev.2 clean-vault GUI sequence, but the required post-test persistence scan found one private test line in a new note's public Markdown envelope while its ciphertext object remained the empty-body size. The GUI result is therefore not accepted as passed.
+- Cause: The secure editor decided whether to focus only after asynchronous envelope/decryption loading. During the mount interval, keyboard input could remain in Obsidian's outer Markdown editor and persist after the public relationship section.
+- Implementation: Register a one-use focus request before opening a newly created or migrated envelope. The matching widget consumes it, moves focus to its non-editable secure container as soon as the DOM mounts, and passes the captured intent to the private editor when loading completes. Failed opens discard unconsumed requests.
+- Acceptance boundary: Preserve the failed vault as evidence. Run dev.3 in a second zero-state vault and require both full Obsidian restart locking and a clean public-envelope persistence scan before preparing `0.1.1`.
+
 ## [2026-07-15] v0.1.1-dev.2 fix(review): address completed lint findings
 
 - Trigger: The `0.1.0` Community automated review completed with no failed checks but reported source and CSS warnings in addition to the recommendations already handled by dev.1.

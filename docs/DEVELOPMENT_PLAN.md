@@ -18,7 +18,7 @@ Deliver a store-ready general Obsidian plugin that keeps selected metadata visib
 
 ## Current iteration
 
-This iteration implements C0-C5 with synthetic data. The key desktop GUI flows passed user acceptance on 2026-07-15. The public repository and verified `0.1.0` GitHub release are available; the Community directory entry is live and C6 is awaiting automated review.
+This iteration implements C0-C5 with synthetic data. The key desktop GUI flows passed user acceptance on 2026-07-15. The public repository and verified `0.1.0` GitHub release are available; the Community submission is live, its automated review is complete, and C6 is awaiting official directory inclusion plus `0.1.1` patch acceptance.
 
 Automated acceptance for C0-C5 passed on 2026-07-14. Desktop GUI acceptance covers the standalone synthetic-data workflow; mobile behavior and real gateway deployment are not implied by that result.
 

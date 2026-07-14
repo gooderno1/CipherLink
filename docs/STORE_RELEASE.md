@@ -18,7 +18,7 @@ Reviewed against the official Obsidian submission and plugin-guideline documenta
 - [ ] Execute the isolated-vault sequence in [`MOBILE_ACCEPTANCE.md`](MOBILE_ACCEPTANCE.md) on each claimed mobile platform. Mobile acceptance was explicitly deferred by the user on 2026-07-15, is not claimed as passed, and does not block this beta by that decision.
 - [ ] Auto, Chinese, and English interfaces are checked across setup, settings, editor, and commands.
 - [x] User explicitly approved publishing the release and proceeding toward Community directory submission on 2026-07-15.
-- [x] Community directory entry is live; automated review for `0.1.0` at commit `4c4d17e` is pending.
+- [x] Community submission is live; automated review for `0.1.0` at commit `4c4d17e` completed without failed checks.
 
 ## Automated review follow-up
 
@@ -26,4 +26,5 @@ Reviewed against the official Obsidian submission and plugin-guideline documenta
 - `v0.1.1-dev.1` adds attestations for future release assets, replaces the direct language-value browser-storage read with Obsidian's public `getLanguage()` API, and limits envelope resolution/migration checks to known or same-folder files.
 - `v0.1.1-dev.2` addresses the completed review's remaining actionable source and CSS warnings: Node's built-in module list, popout-safe document ownership, guarded frontmatter, void event callbacks, control-character validation without control-character regexes, non-deprecated internal settings refresh, and CSS specificity without `!important`.
 - The settings tab retains its imperative `display()` entry point because `minAppVersion` remains 1.10.6; declarative `getSettingDefinitions()` is available only from Obsidian 1.13.0 and would require a compatibility-floor change and new GUI acceptance.
-- The current `0.1.0` release remains unchanged while its automated review is running.
+- `v0.1.1-dev.3` fixes a clean-vault acceptance race: newly created envelopes now carry a one-use secure-focus request. The embedded component immediately moves focus off the public envelope while loading and gives the ready private editor the same captured focus intent.
+- The current `0.1.0` release remains unchanged while the `0.1.1` patch candidate completes acceptance.

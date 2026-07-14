@@ -40,6 +40,7 @@ test("plugin startup is passive and creation follows Obsidian's new-note locatio
   assert.match(source, /title: this\.t\("document\.untitled"\)/);
   assert.match(source, /registerEditorExtension\(createSecureBodyEditorExtension\(this\)\)/);
   assert.match(source, /registerMarkdownPostProcessor\(createSecureBodyPostProcessor\(this\)/);
+  assert.match(source, /pendingSecureBodyFocus\.add\(id\)/);
   assert.match(source, /openFile\(file, \{ active: true \}\)/);
 });
 
@@ -81,6 +82,10 @@ test("native integration embeds ciphertext editing without placing plaintext in 
   assert.match(integration, /Decoration\.replace/);
   assert.match(integration, /createSecureBodyPostProcessor/);
   assert.match(integration, /other\.envelopeId === this\.envelopeId/);
+  assert.match(integration, /consumeSecureBodyFocusRequest\(this\.envelopeId\)/);
+  assert.match(integration, /queueMicrotask/);
+  assert.match(integration, /container\.focus\(\{ preventScroll: true \}\)/);
+  assert.match(integration, /\(\) => focusOnMount/);
   assert.match(body, /host\.saveBody\(envelope, body, this\.version\)/);
   assert.match(body, /host\.resolveEnvelope\(this\.expectedId, this\.preferredFile\)/);
   assert.match(body, /if \(this\.shouldFocus\(\)\) this\.editor\.focus\(\)/);

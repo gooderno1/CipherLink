@@ -104,15 +104,22 @@ class SecureBodyWidget extends WidgetType {
   }
 
   toDOM(view: EditorView): HTMLElement {
+    const focusOnMount = this.host.consumeSecureBodyFocusRequest(this.envelopeId) || view.hasFocus;
     const container = view.dom.ownerDocument.createElement("div");
     container.className = "cipherlink-embedded";
+    container.tabIndex = -1;
+    if (focusOnMount) {
+      queueMicrotask(() => {
+        if (container.isConnected) container.focus({ preventScroll: true });
+      });
+    }
     const controller = new SecureBodyController(
       container,
       this.host,
       this.file,
       this.envelopeId,
       "edit",
-      () => view.hasFocus,
+      () => focusOnMount,
     );
     controllers.set(container, controller);
     controller.load();
