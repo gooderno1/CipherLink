@@ -13,8 +13,9 @@ Reviewed against the official Obsidian submission and plugin-guideline documenta
 - [x] Production source contains no debug `console.log` calls.
 - [x] Production dependency audit reports no vulnerabilities; declared licenses are MIT or BSD-3-Clause.
 - [x] Public GitHub CI reproduces `npm ci` and `npm run verify` on Ubuntu with Node 22.
-- [ ] GitHub release tag matches `manifest.json` and includes `main.js`, `manifest.json`, and `styles.css`.
+- [x] GitHub release tag `0.1.0` matches `manifest.json`; the published release contains verified `main.js`, `manifest.json`, and `styles.css` assets.
 - [x] Automated format, migration, path-safety, encryption, and plaintext-persistence checks pass; key standalone desktop GUI flows passed on Obsidian 1.10.6.
 - [ ] Execute the isolated-vault sequence in [`MOBILE_ACCEPTANCE.md`](MOBILE_ACCEPTANCE.md) on each claimed mobile platform. Mobile acceptance was explicitly deferred by the user on 2026-07-15, is not claimed as passed, and does not block this beta by that decision.
 - [ ] Auto, Chinese, and English interfaces are checked across setup, settings, editor, and commands.
 - [x] User explicitly approved publishing the release and proceeding toward Community directory submission on 2026-07-15.
+- [ ] Submit the repository through the account-authenticated Obsidian Community directory portal and record the review URL or status.

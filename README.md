@@ -35,7 +35,7 @@ Existing users can import a compatible protected age identity package and create
 
 - Version: `0.1.0`
 - Desktop acceptance: key standalone flows passed on Obsidian 1.10.6
-- Status: initial public beta release candidate
+- Status: initial public beta released on GitHub; Community directory submission pending
 - Mobile acceptance: explicitly deferred and not claimed as tested
 - Gateway deployment acceptance: pending; standalone use does not require a gateway
 
@@ -64,7 +64,7 @@ See [docs/SECURITY.md](docs/SECURITY.md) before using real data.
 
 ## Installation
 
-Community directory availability is pending. For manual installation, download `main.js`, `manifest.json`, and `styles.css` from the matching GitHub release and place them in `<vault-config-dir>/plugins/cipher-link/`. Restart Obsidian, then enable CipherLink under Community plugins.
+Community directory availability is pending. For manual installation, download `main.js`, `manifest.json`, and `styles.css` from the [0.1.0 GitHub release](https://github.com/gooderno1/CipherLink/releases/tag/0.1.0) and place them in `<vault-config-dir>/plugins/cipher-link/`. Restart Obsidian, then enable CipherLink under Community plugins.
 
 ## Development
 

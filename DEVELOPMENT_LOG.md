@@ -5,7 +5,9 @@
 - Decision: The user explicitly deferred mobile testing and approved continuing with the public release and Community directory process. Mobile remains unverified and is not recorded as passed.
 - Scope: Promote the reviewed `v0.1.0-dev.8` runtime to `0.1.0`; align package and release metadata; add explicit privacy, network, desktop acceptance, and mobile-status disclosures.
 - Runtime behavior: Unchanged from `v0.1.0-dev.8`.
-- Release gate: Run the complete verification suite, publish only the exact release assets generated from the tagged commit, and verify their hashes before making the GitHub release public.
+- Release gate: The complete local and GitHub verification suites passed. Tag `0.1.0` points to `4c4d17e`; the release workflow generated a draft and all downloaded asset hashes matched the local verified build before publication.
+- Publication: `https://github.com/gooderno1/CipherLink/releases/tag/0.1.0` is public. SHA-256 values are `E82E9B6437469E304401226D718A2F3E420C4C99297F9A48286E76EE236F3822` for `main.js`, `A7ADC1141000EFD4A556AB299E26F34754C9A4B4C811074B024516446799B149` for `manifest.json`, and `2186CC8F956E332B4C781B58C8906E40616AEAB799502F7988B609AD43FB35E3` for `styles.css`.
+- Remaining: Submit through the account-authenticated Obsidian Community directory portal and track review; mobile and real gateway deployment acceptance remain open.
 
 ## [2026-07-15] v0.1.0-dev.8 fix(security): harden public release boundaries
 
