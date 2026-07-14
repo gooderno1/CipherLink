@@ -5,7 +5,7 @@ Reviewed against the official Obsidian submission and plugin-guideline documenta
 - [x] Repository is public at `gooderno1/CipherLink` and contains `README.md`, `LICENSE`, and `manifest.json` at root.
 - [x] Manifest ID and name are currently unique in the Community directory; the ID contains no `obsidian`, and the manifest version uses `x.y.z`.
 - [x] Description is 98 characters and ends with a period.
-- [ ] `minAppVersion` 1.8.7 exposes the required APIs; runtime acceptance on that exact oldest version is still pending.
+- [x] `minAppVersion` 1.10.6 matches the desktop version used for user GUI acceptance.
 - [x] No Node or Electron API is present in the production bundle while `isDesktopOnly` is false.
 - [x] Commands have no default hotkeys and IDs are not prefixed with the plugin ID.
 - [x] UI uses sentence case, Obsidian components, theme variables, and no unsafe HTML insertion.

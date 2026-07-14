@@ -2,7 +2,7 @@
   "id": "cipher-link",
   "name": "CipherLink",
   "version": "0.1.0",
-  "minAppVersion": "1.8.7",
+  "minAppVersion": "1.10.6",
   "description": "Create encrypted Markdown notes with visible metadata, native links, and optional gateway storage.",
   "author": "gooderno1",
   "authorUrl": "https://github.com/gooderno1",
