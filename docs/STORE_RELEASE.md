@@ -15,5 +15,6 @@ Reviewed against the official Obsidian submission and plugin-guideline documenta
 - [x] Public GitHub CI reproduces `npm ci` and `npm run verify` on Ubuntu with Node 22.
 - [ ] GitHub release tag matches `manifest.json` and includes `main.js`, `manifest.json`, and `styles.css`.
 - [ ] Synthetic GUI, mobile/desktop, upgrade, migration, and plaintext persistence checks pass.
+- [ ] Execute the isolated-vault sequence in [`MOBILE_ACCEPTANCE.md`](MOBILE_ACCEPTANCE.md) on each claimed mobile platform.
 - [ ] Auto, Chinese, and English interfaces are checked across setup, settings, editor, and commands.
 - [ ] User explicitly approves publishing the release and submitting it to the Community directory.
