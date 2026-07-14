@@ -1,5 +1,12 @@
 # Development log
 
+## [2026-07-15] v0.1.1-dev.2 fix(review): address completed lint findings
+
+- Trigger: The `0.1.0` Community automated review completed with no failed checks but reported source and CSS warnings in addition to the recommendations already handled by dev.1.
+- Implementation: Replace `builtin-modules` with `node:module`; create editor DOM through the owning document; guard untyped frontmatter; remove unnecessary assertions and Promise-returning event callbacks; validate control characters without a control-character regex; refresh the imperative settings renderer directly; remove CSS `!important` through selector specificity.
+- Compatibility decision: Keep the imperative `display()` entry point and Obsidian 1.10.6 minimum. The recommended declarative `getSettingDefinitions()` API starts at Obsidian 1.13.0, so adopting it requires a deliberate minimum-version change and fresh GUI acceptance.
+- Directory status: Automated review is complete, but `cipher-link` is not yet present in the official `obsidianmd/obsidian-releases` directory. Do not describe the plugin as installable from Obsidian yet.
+
 ## [2026-07-15] v0.1.1-dev.1 fix(review): narrow vault access and add release provenance
 
 - Trigger: The live Community directory entry began automated review for `0.1.0`. Its incomplete results recommended GitHub release-asset attestations and flagged whole-vault enumeration plus browser storage use.

@@ -24,4 +24,6 @@ Reviewed against the official Obsidian submission and plugin-guideline documenta
 
 - The initial incomplete review recommends GitHub artifact attestations, avoiding whole-vault enumeration, and avoiding browser storage.
 - `v0.1.1-dev.1` adds attestations for future release assets, replaces the direct language-value browser-storage read with Obsidian's public `getLanguage()` API, and limits envelope resolution/migration checks to known or same-folder files.
+- `v0.1.1-dev.2` addresses the completed review's remaining actionable source and CSS warnings: Node's built-in module list, popout-safe document ownership, guarded frontmatter, void event callbacks, control-character validation without control-character regexes, non-deprecated internal settings refresh, and CSS specificity without `!important`.
+- The settings tab retains its imperative `display()` entry point because `minAppVersion` remains 1.10.6; declarative `getSettingDefinitions()` is available only from Obsidian 1.13.0 and would require a compatibility-floor change and new GUI acceptance.
 - The current `0.1.0` release remains unchanged while its automated review is running.

@@ -121,9 +121,7 @@ export class SecureBodyController extends MarkdownRenderChild implements SecureB
     state.createEl("h3", { text: this.host.t("view.locked") });
     const button = state.createEl("button", { text: this.host.t("view.unlock") });
     button.addClass("mod-cta");
-    button.addEventListener("click", async () => {
-      await this.host.unlock();
-    });
+    button.addEventListener("click", () => void this.host.unlock());
   }
 
   private async renderUnlocked(): Promise<void> {

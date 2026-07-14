@@ -10,7 +10,7 @@ import {
 test("vault paths reject absolute paths, traversal, and ambiguous segments", () => {
   assert.equal(requireVaultRelativePath(".cipherlink/objects", "Folder"), ".cipherlink/objects");
   assert.equal(requireVaultRelativePath("Imports\\identity.age.json", "File"), "Imports/identity.age.json");
-  for (const value of ["", "/tmp/body.md.age", "C:/body.md.age", "../body.md.age", "a//body.md.age", "a/./body.md.age"]) {
+  for (const value of ["", "/tmp/body.md.age", "C:/body.md.age", "../body.md.age", "a//body.md.age", "a/./body.md.age", "a/\u0000b", "a/\u001fb"]) {
     assert.throws(() => requireVaultRelativePath(value, "Path"));
   }
 });
@@ -49,4 +49,20 @@ test("runtime avoids browser storage and whole-vault Markdown enumeration", asyn
   assert.equal(envelope.includes("getMarkdownFiles"), false);
   assert.match(main, /file\.parent\?\.children/);
   assert.match(main, /workspace\.getActiveFile\(\)/);
+});
+
+test("review-sensitive source uses popout-safe documents and standard build APIs", async () => {
+  const livePreview = await readFile("src/editor/live-preview.ts", "utf8");
+  const integration = await readFile("src/editor/native-integration.ts", "utf8");
+  const i18n = await readFile("src/i18n.ts", "utf8");
+  const settings = await readFile("src/settings.ts", "utf8");
+  const build = await readFile("esbuild.config.mjs", "utf8");
+  const styles = await readFile("styles.css", "utf8");
+  assert.equal(livePreview.includes("document.createElement"), false);
+  assert.equal(integration.includes("document.createElement"), false);
+  assert.equal(i18n.includes("document.documentElement"), false);
+  assert.equal(settings.includes("this.display()"), false);
+  assert.equal(build.includes('from "builtin-modules"'), false);
+  assert.match(build, /builtinModules/);
+  assert.equal(styles.includes("!important"), false);
 });

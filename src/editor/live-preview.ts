@@ -149,8 +149,8 @@ class WikiLinkWidget extends WidgetType {
     super();
   }
 
-  toDOM(): HTMLElement {
-    const link = document.createElement("a");
+  toDOM(view: EditorView): HTMLElement {
+    const link = view.dom.ownerDocument.createElement("a");
     link.className = "internal-link cipherlink-lp-link";
     link.textContent = this.label;
     link.addEventListener("click", (event) => {
@@ -170,7 +170,7 @@ class TaskWidget extends WidgetType {
   }
 
   toDOM(view: EditorView): HTMLElement {
-    const checkbox = document.createElement("input");
+    const checkbox = view.dom.ownerDocument.createElement("input");
     checkbox.type = "checkbox";
     checkbox.checked = this.checked;
     checkbox.className = "task-list-item-checkbox";

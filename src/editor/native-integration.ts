@@ -29,14 +29,17 @@ export function createSecureBodyEditorExtension(host: SecureBodyHost) {
 
 export function createSecureBodyPostProcessor(host: SecureBodyHost): MarkdownPostProcessor {
   return (el, context) => {
-    if (context.frontmatter?.cipherlink !== true) return;
-    const envelopeId = String(context.frontmatter.cipherlink_id ?? "");
+    const frontmatter: unknown = context.frontmatter;
+    if (!isRecord(frontmatter) || frontmatter["cipherlink"] !== true) return;
+    const envelopeId = typeof frontmatter["cipherlink_id"] === "string"
+      ? frontmatter["cipherlink_id"]
+      : "";
     if (!envelopeId) return;
     const callout = findRenderedSecureCallout(el);
     if (!callout) return;
     const file = host.app.vault.getAbstractFileByPath(context.sourcePath);
     if (!(file instanceof TFile)) return;
-    const container = document.createElement("div");
+    const container = el.ownerDocument.createElement("div");
     container.className = "cipherlink-embedded";
     callout.replaceWith(container);
     context.addChild(new SecureBodyController(container, host, file, envelopeId, "read"));
@@ -76,12 +79,12 @@ function cipherLinkEnvelopeId(content: string): string | null {
 
 function findRenderedSecureCallout(el: HTMLElement): HTMLElement | null {
   const candidates: HTMLElement[] = el.matches(".callout") ? [el] : [];
-  candidates.push(...Array.from(el.querySelectorAll(".callout")) as HTMLElement[]);
+  candidates.push(...Array.from(el.querySelectorAll<HTMLElement>(".callout")));
   return candidates.find((candidate) => {
     const kind = candidate.dataset.callout;
     if (kind === "cipherlink") return true;
     if (kind !== "locked") return false;
-    const titleElement = candidate.querySelector(".callout-title-inner") as HTMLElement | null;
+    const titleElement = candidate.querySelector<HTMLElement>(".callout-title-inner");
     const title = titleElement?.innerText.trim();
     return title === "加密内容" || title === "Encrypted content";
   }) ?? null;
@@ -101,7 +104,7 @@ class SecureBodyWidget extends WidgetType {
   }
 
   toDOM(view: EditorView): HTMLElement {
-    const container = document.createElement("div");
+    const container = view.dom.ownerDocument.createElement("div");
     container.className = "cipherlink-embedded";
     const controller = new SecureBodyController(
       container,
@@ -121,4 +124,8 @@ class SecureBodyWidget extends WidgetType {
     controllers.delete(dom);
     if (controller) void controller.dispose();
   }
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
 }

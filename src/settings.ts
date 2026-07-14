@@ -9,6 +9,10 @@ export class CipherLinkSettingTab extends PluginSettingTab {
   }
 
   display(): void {
+    this.renderSettings();
+  }
+
+  private renderSettings(): void {
     const { containerEl } = this;
     const t = this.plugin.t;
     containerEl.empty();
@@ -26,7 +30,7 @@ export class CipherLinkSettingTab extends PluginSettingTab {
           .onChange(async (value) => {
             this.plugin.settings.language = value as LanguagePreference;
             await this.plugin.saveSettings();
-            this.display();
+            this.renderSettings();
           }),
       );
 
@@ -104,7 +108,7 @@ export class CipherLinkSettingTab extends PluginSettingTab {
         button.setButtonText(t("settings.refresh")).onClick(async () => {
           try {
             await this.plugin.refreshGatewayConfiguration();
-            this.display();
+            this.renderSettings();
           } catch (cause) {
             new Notice(localizeError(cause, t));
           }
@@ -121,7 +125,7 @@ export class CipherLinkSettingTab extends PluginSettingTab {
           .onClick(async () => {
             if (this.plugin.session.isUnlocked) await this.plugin.lock();
             else await this.plugin.unlock();
-            this.display();
+            this.renderSettings();
           }),
       );
     if (this.plugin.isInitialized) {

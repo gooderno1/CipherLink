@@ -5,7 +5,7 @@ export function requireVaultRelativePath(value: string, label: string): string {
     candidate.startsWith("/") ||
     /^[a-z]:/i.test(candidate) ||
     /^[a-z][a-z0-9+.-]*:\/\//i.test(candidate) ||
-    /[\u0000-\u001f]/.test(candidate)
+    Array.from(candidate).some((character) => character.charCodeAt(0) <= 0x1f)
   ) {
     throw new Error(`${label} must be a vault-relative path.`);
   }

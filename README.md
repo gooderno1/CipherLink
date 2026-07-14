@@ -34,7 +34,7 @@ Existing users can import a compatible protected age identity package and create
 ## Current status
 
 - Released version: `0.1.0`
-- Development version: `v0.1.1-dev.1`
+- Development version: `v0.1.1-dev.2`
 - Desktop acceptance: key standalone flows passed on Obsidian 1.10.6
 - Status: Community directory entry is live and automated review is pending
 - Mobile acceptance: explicitly deferred and not claimed as tested

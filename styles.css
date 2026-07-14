@@ -143,10 +143,10 @@
 }
 .cipherlink-lp-link { cursor: pointer; }
 
-.cipherlink-lp-callout {
+.cipherlink-body .cm-line.cipherlink-lp-callout {
   border-inline-start: 3px solid var(--interactive-accent);
   background: var(--background-secondary);
-  padding-inline-start: 12px !important;
+  padding-inline-start: 12px;
 }
 
 .cipherlink-form-error {

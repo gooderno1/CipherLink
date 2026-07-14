@@ -50,5 +50,5 @@ export class LocalProvider implements SecureDocumentProvider {
 }
 
 function exactBuffer(bytes: Uint8Array): ArrayBuffer {
-  return bytes.slice().buffer as ArrayBuffer;
+  return bytes.slice().buffer;
 }

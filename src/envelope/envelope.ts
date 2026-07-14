@@ -99,8 +99,9 @@ export class EnvelopeService {
     relationships: PublicRelationship[],
   ): Promise<void> {
     await this.fileManager.processFrontMatter(envelope.file, (frontmatter) => {
-      frontmatter.aliases = cleanList(aliases);
-      frontmatter.tags = cleanList(tags);
+      const values = frontmatter as Record<string, unknown>;
+      values["aliases"] = cleanList(aliases);
+      values["tags"] = cleanList(tags);
     });
     await this.vault.process(envelope.file, (content) =>
       replaceRelationshipSection(

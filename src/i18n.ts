@@ -274,8 +274,8 @@ export function resolveLanguage(
   if (preference !== "auto") return preference;
   const candidates: string[] = [];
   if (obsidianLanguage) candidates.push(obsidianLanguage);
-  if (typeof document !== "undefined" && document.documentElement.lang) {
-    candidates.push(document.documentElement.lang);
+  if (typeof activeDocument !== "undefined" && activeDocument.documentElement.lang) {
+    candidates.push(activeDocument.documentElement.lang);
   }
   if (typeof navigator !== "undefined") {
     candidates.push(...navigator.languages);
