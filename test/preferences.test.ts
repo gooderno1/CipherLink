@@ -87,13 +87,16 @@ test("native integration embeds ciphertext editing without placing plaintext in 
   assert.match(integration, /createSecureBodyPostProcessor/);
   assert.match(integration, /other\.envelopeId === this\.envelopeId/);
   assert.match(integration, /createPublicEnvelopeGuard/);
+  assert.match(integration, /Prec\.highest\(EditorView\.decorations\.from\(field\)\)/);
   assert.match(guard, /Prec\.highest\([\s\S]*EditorView\.editable\.from/);
+  assert.match(guard, /Prec\.highest\(EditorView\.contentAttributes\.from/);
   assert.match(guard, /EditorState\.changeFilter\.of/);
   assert.match(guard, /transaction\.annotation\(Transaction\.userEvent\)/);
   assert.match(integration, /consumeSecureBodyFocusRequest\(this\.envelopeId\)/);
   assert.match(integration, /activeElement\.blur\(\)/);
   assert.match(integration, /ownerWindow\?\.requestAnimationFrame/);
   assert.match(integration, /container\.focus\(\{ preventScroll: true \}\)/);
+  assert.match(integration, /this\.host\.t\("view\.loading"\)/);
   assert.match(integration, /\(\) => focusOnMount/);
   assert.match(body, /host\.saveBody\(envelope, body, this\.version\)/);
   assert.match(body, /host\.resolveEnvelope\(this\.expectedId, this\.preferredFile\)/);
@@ -109,10 +112,21 @@ test("public envelope guard wins precedence and rejects user-originated outer ed
   );
   const state = EditorState.create({
     doc: envelope,
-    extensions: [EditorView.editable.of(true), guard],
+    extensions: [
+      EditorView.editable.of(true),
+      EditorView.contentAttributes.of({ contenteditable: "true" }),
+      guard,
+    ],
   });
 
   assert.equal(state.facet(EditorView.editable), false);
+  const finalContentAttributes = state.facet(EditorView.contentAttributes).at(0);
+  assert.equal(
+    typeof finalContentAttributes === "function"
+      ? undefined
+      : finalContentAttributes?.contenteditable,
+    "false",
+  );
   const typed = state.update({
     changes: { from: state.doc.length, insert: "private marker" },
     annotations: Transaction.userEvent.of("input.type"),
@@ -131,4 +145,20 @@ test("public envelope guard wins precedence and rejects user-originated outer ed
     annotations: Transaction.userEvent.of("input.type"),
   });
   assert.equal(normalTyped.state.doc.toString(), "ordinary note remains editable");
+});
+
+test("production build uses Obsidian's CodeMirror and Lezer runtime instances", async () => {
+  const build = await readFile("esbuild.config.mjs", "utf8");
+  for (const moduleName of [
+    "@codemirror/commands",
+    "@codemirror/language",
+    "@codemirror/state",
+    "@codemirror/view",
+    "@lezer/common",
+    "@lezer/highlight",
+    "@lezer/lr",
+  ]) {
+    assert.equal(build.includes(`"${moduleName}"`), true);
+  }
+  assert.match(build, /external: \["obsidian", "electron", \.\.\.obsidianRuntimeModules/);
 });

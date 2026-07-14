@@ -1,4 +1,4 @@
-import { EditorState, StateField } from "@codemirror/state";
+import { EditorState, Prec, StateField } from "@codemirror/state";
 import { Decoration, DecorationSet, EditorView, WidgetType } from "@codemirror/view";
 import {
   editorInfoField,
@@ -27,7 +27,7 @@ export function createSecureBodyEditorExtension(host: SecureBodyHost) {
       }
       return decorations.map(transaction.changes);
     },
-    provide: (field) => EditorView.decorations.from(field),
+    provide: (field) => Prec.highest(EditorView.decorations.from(field)),
   });
   return [envelopeGuard, secureBody];
 }
@@ -115,6 +115,12 @@ class SecureBodyWidget extends WidgetType {
     const container = ownerDocument.createElement("div");
     container.className = "cipherlink-embedded";
     container.tabIndex = -1;
+    const loading = ownerDocument.createElement("div");
+    loading.className = "cipherlink-state cipherlink-state-embedded";
+    const loadingTitle = ownerDocument.createElement("h3");
+    loadingTitle.textContent = this.host.t("view.loading");
+    loading.append(loadingTitle);
+    container.append(loading);
     if (focusOnMount) {
       const activeElement = ownerDocument.activeElement;
       if (ownerWindow && activeElement instanceof ownerWindow.HTMLElement) activeElement.blur();

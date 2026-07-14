@@ -16,6 +16,13 @@ for (const forbidden of [
   "require('fs')",
   "require(\"electron\")",
   "eval(",
+  "node_modules/@codemirror/state/",
+  "node_modules/@codemirror/view/",
+  "node_modules/@codemirror/language/",
+  "node_modules/@lezer/common/",
+  "node_modules/@lezer/highlight/",
+  "node_modules/@lezer/lr/",
+  "multiple instances of @codemirror/state",
 ]) {
   assert.equal(bundle.includes(forbidden), false, `Production bundle contains ${forbidden}`);
 }
