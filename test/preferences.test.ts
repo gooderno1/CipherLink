@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
+import { EditorState, Transaction } from "@codemirror/state";
+import { EditorView } from "@codemirror/view";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { createPublicEnvelopeGuard } from "../src/editor/public-envelope-guard";
 import { detectLanguage, localizeError, resolveLanguage, translate } from "../src/i18n";
 import { isPasswordLengthValid, MIN_PASSWORD_LENGTH } from "../src/security/password";
 
@@ -76,13 +79,17 @@ test("new documents start like native Obsidian notes and Live Preview hides inac
 
 test("native integration embeds ciphertext editing without placing plaintext in the outer editor", async () => {
   const integration = await readFile("src/editor/native-integration.ts", "utf8");
+  const guard = await readFile("src/editor/public-envelope-guard.ts", "utf8");
   const body = await readFile("src/editor/secure-body.ts", "utf8");
   const envelope = await readFile("src/envelope/envelope.ts", "utf8");
   assert.match(integration, /editorInfoField/);
   assert.match(integration, /Decoration\.replace/);
   assert.match(integration, /createSecureBodyPostProcessor/);
   assert.match(integration, /other\.envelopeId === this\.envelopeId/);
-  assert.match(integration, /EditorView\.editable\.from\(field, \(isEnvelope\) => !isEnvelope\)/);
+  assert.match(integration, /createPublicEnvelopeGuard/);
+  assert.match(guard, /Prec\.highest\([\s\S]*EditorView\.editable\.from/);
+  assert.match(guard, /EditorState\.changeFilter\.of/);
+  assert.match(guard, /transaction\.annotation\(Transaction\.userEvent\)/);
   assert.match(integration, /consumeSecureBodyFocusRequest\(this\.envelopeId\)/);
   assert.match(integration, /activeElement\.blur\(\)/);
   assert.match(integration, /ownerWindow\?\.requestAnimationFrame/);
@@ -93,4 +100,35 @@ test("native integration embeds ciphertext editing without placing plaintext in 
   assert.match(body, /if \(this\.shouldFocus\(\)\) this\.editor\.focus\(\)/);
   assert.equal(body.includes("vault.modify"), false);
   assert.match(envelope, /> \[!cipherlink\]/);
+});
+
+test("public envelope guard wins precedence and rejects user-originated outer edits", () => {
+  const envelope = "---\ncipherlink: true\n---\n> [!cipherlink] Encrypted content\n";
+  const guard = createPublicEnvelopeGuard(
+    (state) => state.doc.toString().includes("cipherlink: true"),
+  );
+  const state = EditorState.create({
+    doc: envelope,
+    extensions: [EditorView.editable.of(true), guard],
+  });
+
+  assert.equal(state.facet(EditorView.editable), false);
+  const typed = state.update({
+    changes: { from: state.doc.length, insert: "private marker" },
+    annotations: Transaction.userEvent.of("input.type"),
+  });
+  assert.equal(typed.state.doc.toString(), envelope);
+
+  const synchronized = state.update({
+    changes: { from: state.doc.length, insert: "external metadata update" },
+  });
+  assert.equal(synchronized.state.doc.toString(), `${envelope}external metadata update`);
+
+  const normal = EditorState.create({ doc: "ordinary note", extensions: [guard] });
+  assert.equal(normal.facet(EditorView.editable), true);
+  const normalTyped = normal.update({
+    changes: { from: normal.doc.length, insert: " remains editable" },
+    annotations: Transaction.userEvent.of("input.type"),
+  });
+  assert.equal(normalTyped.state.doc.toString(), "ordinary note remains editable");
 });

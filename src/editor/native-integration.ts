@@ -8,23 +8,15 @@ import {
   TFile,
 } from "obsidian";
 import { SecureBodyController, SecureBodyHost } from "./secure-body";
+import { createPublicEnvelopeGuard } from "./public-envelope-guard";
 
 const SECURE_CALLOUT = /^(?:> \[!cipherlink\][^\n]*|> \[!locked\]\s*(?:加密内容|Encrypted content)[^\n]*)(?:\n>[^\n]*)*/m;
 const controllers = new WeakMap<HTMLElement, SecureBodyController>();
 
 export function createSecureBodyEditorExtension(host: SecureBodyHost) {
-  const envelopeReadOnly = StateField.define<boolean>({
-    create: (state) => cipherLinkEnvelopeId(state.doc.toString()) !== null,
-    update: (value, transaction) => {
-      const previousFile = transaction.startState.field(editorInfoField, false)?.file?.path;
-      const currentFile = transaction.state.field(editorInfoField, false)?.file?.path;
-      if (transaction.docChanged || previousFile !== currentFile) {
-        return cipherLinkEnvelopeId(transaction.state.doc.toString()) !== null;
-      }
-      return value;
-    },
-    provide: (field) => EditorView.editable.from(field, (isEnvelope) => !isEnvelope),
-  });
+  const envelopeGuard = createPublicEnvelopeGuard(
+    (state) => cipherLinkEnvelopeId(state.doc.toString()) !== null,
+  );
   const secureBody = StateField.define<DecorationSet>({
     create: (state) => buildDecorations(state, host),
     update: (decorations, transaction) => {
@@ -37,7 +29,7 @@ export function createSecureBodyEditorExtension(host: SecureBodyHost) {
     },
     provide: (field) => EditorView.decorations.from(field),
   });
-  return [envelopeReadOnly, secureBody];
+  return [envelopeGuard, secureBody];
 }
 
 export function createSecureBodyPostProcessor(host: SecureBodyHost): MarkdownPostProcessor {

@@ -1,5 +1,12 @@
 # Development log
 
+## [2026-07-15] v0.1.1-dev.5 fix(security): enforce the public-envelope boundary
+
+- Trigger: The dev.4 third clean-vault scan found input in both the public callout and after the public-relationship section while every ciphertext object remained the empty-body size. Dev.4 acceptance failed.
+- Cause: CodeMirror's editable facet uses the first value after precedence ordering. Obsidian's existing default-precedence `true` value appeared before the plugin-provided dynamic value, so dev.4 did not make the outer editor read-only at runtime.
+- Implementation: Wrap the dynamic envelope editable facet in `Prec.highest`. Add a separate highest-precedence change filter that rejects document-changing transactions carrying CodeMirror user-event annotations when the starting document is a CipherLink envelope. This covers typing, composition, paste, drop, delete, cut, move, undo, and redo while allowing external file refreshes and explicit plugin metadata writes. A behavioral CodeMirror state test reproduces Obsidian's earlier `editable=true` registration and verifies precedence, user-edit rejection, synchronization, and ordinary-note editing.
+- Acceptance boundary: Preserve all three failed clean vaults. Test dev.5 in a fourth zero-state vault and require a visibly non-editable outer envelope, successful nested-editor ciphertext growth, restart locking, metadata updates, and a clean persistence scan before preparing `0.1.1`.
+
 ## [2026-07-15] v0.1.1-dev.4 fix(security): make public envelopes read-only
 
 - Trigger: The user completed the dev.3 second clean-vault sequence, but the required scan found typed content inside one public CipherLink callout while all three ciphertext objects remained the empty-body size. Dev.3 acceptance therefore failed.
