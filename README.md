@@ -33,11 +33,11 @@ Existing users can import a compatible protected age identity package and create
 
 ## Current status
 
-- Development version: `v0.1.0-dev.8`
-- Last user-accepted desktop build: `v0.1.0-dev.7`
-- Store manifest target: `0.1.0`
-- Status: public beta source candidate; no GitHub release or Community directory submission yet
-- Acceptance: automated suite and key standalone desktop GUI flows passed; mobile and gateway deployment remain pending
+- Version: `0.1.0`
+- Desktop acceptance: key standalone flows passed on Obsidian 1.10.6
+- Status: initial public beta release candidate
+- Mobile acceptance: explicitly deferred and not claimed as tested
+- Gateway deployment acceptance: pending; standalone use does not require a gateway
 
 Implemented scope and acceptance status are tracked in [docs/DEVELOPMENT_PLAN.md](docs/DEVELOPMENT_PLAN.md).
 The native envelope and embedded secure-body architecture is specified in [docs/NATIVE_INTEGRATION.md](docs/NATIVE_INTEGRATION.md).
@@ -53,6 +53,18 @@ The native envelope and embedded secure-body architecture is specified in [docs/
 - Losing both the identity package and its password makes standalone notes unrecoverable; back up the protected identity separately.
 
 See [docs/SECURITY.md](docs/SECURITY.md) before using real data.
+
+## Privacy and network access
+
+- CipherLink has no telemetry, advertising, account system, or payment feature.
+- Standalone mode performs no network requests.
+- Gateway mode contacts only the endpoint configured by the user. Non-loopback endpoints must use HTTPS; HTTP is permitted only for local development on loopback addresses.
+- Gateway requests contain encrypted note objects, public envelope/configuration data, protocol challenges, and short-lived session tokens. Decrypted Markdown bodies and identity passwords are not sent to the gateway.
+- Identity import reads only the vault-relative file explicitly selected by the user.
+
+## Installation
+
+Community directory availability is pending. For manual installation, download `main.js`, `manifest.json`, and `styles.css` from the matching GitHub release and place them in `<vault-config-dir>/plugins/cipher-link/`. Restart Obsidian, then enable CipherLink under Community plugins.
 
 ## Development
 

@@ -18,9 +18,11 @@ Deliver a store-ready general Obsidian plugin that keeps selected metadata visib
 
 ## Current iteration
 
-This iteration implements C0-C5 with synthetic data. The key desktop GUI flows passed user acceptance on 2026-07-15. C6 still requires repository publication, mobile acceptance, release assets, and a deliberate Community directory submission decision.
+This iteration implements C0-C5 with synthetic data. The key desktop GUI flows passed user acceptance on 2026-07-15. The public repository is available, and C6 is proceeding with release assets and Community directory submission.
 
 Automated acceptance for C0-C5 passed on 2026-07-14. Desktop GUI acceptance covers the standalone synthetic-data workflow; mobile behavior and real gateway deployment are not implied by that result.
+
+On 2026-07-15, the user explicitly deferred mobile acceptance and approved continuing with the `0.1.0` public beta. Mobile remains an open, unverified acceptance item rather than a passed result or a claim of compatibility.
 
 `v0.1.0-dev.3` aligns creation with native Obsidian behavior: creation directly places an untitled encrypted document in the current new-note location, folder creation is idempotent, system errors are localized, and the optional gateway description identifies MemoLoomSecure as a compatible gateway example. A separate uninitialized vault is used for first-use GUI acceptance.
 
@@ -35,6 +37,8 @@ Automated acceptance for C0-C5 passed on 2026-07-14. Desktop GUI acceptance cove
 The 2026-07-15 desktop regression passed. The apparent default text was the intentional public-relationship placeholder in the Markdown envelope, not a copied secure body or stale template content.
 
 `v0.1.0-dev.8` hardens the public-release boundary: identity storage follows `Vault.configDir`, identity import has no private-project default, local object references reject absolute/traversing/non-`.md.age` paths, and non-loopback gateways require HTTPS. CI, release notes, and private vulnerability reporting are prepared for the public repository.
+
+`0.1.0` promotes that reviewed build to the initial public beta without changing runtime behavior. Release metadata adds explicit privacy, network, desktop acceptance, and deferred-mobile disclosures.
 
 ## Required format coverage
 

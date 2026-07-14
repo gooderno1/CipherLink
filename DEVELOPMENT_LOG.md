@@ -1,12 +1,19 @@
 # Development log
 
+## [2026-07-15] 0.1.0 release: prepare initial public beta
+
+- Decision: The user explicitly deferred mobile testing and approved continuing with the public release and Community directory process. Mobile remains unverified and is not recorded as passed.
+- Scope: Promote the reviewed `v0.1.0-dev.8` runtime to `0.1.0`; align package and release metadata; add explicit privacy, network, desktop acceptance, and mobile-status disclosures.
+- Runtime behavior: Unchanged from `v0.1.0-dev.8`.
+- Release gate: Run the complete verification suite, publish only the exact release assets generated from the tagged commit, and verify their hashes before making the GitHub release public.
+
 ## [2026-07-15] v0.1.0-dev.8 fix(security): harden public release boundaries
 
 - Reason: Public-release review found that identity storage hardcoded `.obsidian` and the import modal prefilled a MemoLoomSecure-specific path. Both conflict with custom configuration directories and the standalone product boundary.
 - Implementation: Derive the protected CipherLink identity path from `Vault.configDir` and the plugin manifest ID; discard the obsolete persisted path override; make identity import request an explicit vault-relative path without a private-project default. Reject absolute, traversing, or non-`.md.age` ciphertext references and require HTTPS for non-loopback gateways.
 - Verification: Strict type checking, 17 automated tests, the production build, source/bundle security scan, dependency audit, license inventory, release-workflow parsing, and installed-bundle hash comparison pass.
 - Publication: Publish only the reviewed snapshot to `gooderno1/CipherLink`; retain the earlier local development history on an unpushed archive branch. Public CI and private vulnerability reporting are enabled, but no release or tag exists.
-- Remaining: Complete mobile acceptance before publishing `0.1.0` or submitting to the Community directory. The manifest minimum is the user-accepted desktop version, Obsidian 1.10.6.
+- Remaining at that checkpoint: Mobile acceptance had not been completed. It was later explicitly deferred by the user for the initial public beta; the manifest minimum remains the user-accepted desktop version, Obsidian 1.10.6.
 
 ## [2026-07-14] v0.1.0-dev.2 feat(ui): make setup optional and add Chinese localization
 
