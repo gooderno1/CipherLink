@@ -1,4 +1,5 @@
 import {
+  getLanguage,
   Notice,
   normalizePath,
   Plugin,
@@ -48,7 +49,7 @@ import { DEFAULT_SETTINGS } from "./types";
 export default class CipherLinkPlugin extends Plugin implements SecureBodyHost {
   settings: CipherLinkSettings = { ...DEFAULT_SETTINGS };
   readonly t: Translator = (key, variables) =>
-    translate(resolveLanguage(this.settings.language), key, variables);
+    translate(resolveLanguage(this.settings.language, getLanguage()), key, variables);
   readonly session = new SecureSession();
   private envelopes!: EnvelopeService;
   private localProvider!: LocalProvider;
@@ -199,7 +200,10 @@ export default class CipherLinkPlugin extends Plugin implements SecureBodyHost {
 
   async resolveEnvelope(id: string, preferredFile?: TFile): Promise<EnvelopeDescriptor> {
     const mapped = this.envelopeFiles.get(id);
-    const envelope = await this.envelopes.resolve(id, mapped ?? preferredFile);
+    const candidates = [mapped, preferredFile, this.app.workspace.getActiveFile()].filter(
+      (file): file is TFile => file instanceof TFile,
+    );
+    const envelope = await this.envelopes.resolve(id, candidates);
     this.envelopeFiles.set(id, envelope.file);
     return envelope;
   }
@@ -302,7 +306,8 @@ export default class CipherLinkPlugin extends Plugin implements SecureBodyHost {
   }
 
   private async migrateAgeFile(file: TFile): Promise<void> {
-    const alreadyLinked = this.app.vault.getMarkdownFiles().some((candidate) => {
+    const alreadyLinked = (file.parent?.children ?? []).some((candidate) => {
+      if (!(candidate instanceof TFile) || candidate.extension !== "md") return false;
       const frontmatter = this.app.metadataCache.getFileCache(candidate)?.frontmatter;
       return frontmatter?.cipherlink_object === file.path;
     });

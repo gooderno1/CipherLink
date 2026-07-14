@@ -47,25 +47,17 @@ export class EnvelopeService {
     return descriptor;
   }
 
-  async resolve(id: string, preferredFile?: TFile): Promise<EnvelopeDescriptor> {
-    if (preferredFile) {
+  async resolve(id: string, candidates: readonly TFile[]): Promise<EnvelopeDescriptor> {
+    const checked = new Set<string>();
+    for (const candidate of candidates) {
+      if (checked.has(candidate.path)) continue;
+      checked.add(candidate.path);
       try {
-        const preferred = await this.read(preferredFile);
-        if (preferred.id === id) return preferred;
+        const envelope = await this.read(candidate);
+        if (envelope.id === id) return envelope;
       } catch {
         // The editor may briefly expose the previous file while reusing a leaf.
       }
-    }
-    const cached = this.vault.getMarkdownFiles().find((file) =>
-      this.metadataCache.getFileCache(file)?.frontmatter?.cipherlink_id === id
-    );
-    if (cached) return this.read(cached);
-    for (const file of this.vault.getMarkdownFiles()) {
-      if (file === preferredFile || file === cached) continue;
-      const content = await this.vault.cachedRead(file);
-      if (!content.includes(id)) continue;
-      const descriptor = await this.read(file);
-      if (descriptor.id === id) return descriptor;
     }
     throw new Error(`CipherLink envelope not found: ${id}`);
   }

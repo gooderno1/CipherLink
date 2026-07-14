@@ -1,5 +1,12 @@
 # Development log
 
+## [2026-07-15] v0.1.1-dev.1 fix(review): narrow vault access and add release provenance
+
+- Trigger: The live Community directory entry began automated review for `0.1.0`. Its incomplete results recommended GitHub release-asset attestations and flagged whole-vault enumeration plus browser storage use.
+- Assessment: The browser-storage match only read Obsidian's language preference and persisted nothing. Whole-vault fallback resolution did read Markdown files broadly, while migration duplicate detection enumerated all Markdown metadata.
+- Implementation: Use Obsidian's public `getLanguage()` API; resolve envelopes only from the in-memory mapping, provided file, or active file; limit migration duplicate checks to Markdown siblings of the explicitly selected ciphertext. Add `actions/attest@v4` for future release assets.
+- Release boundary: Keep the currently reviewed `0.1.0` tag and assets unchanged until the automated review reaches a final result. This work is a candidate for a later patch release.
+
 ## [2026-07-15] 0.1.0 release: prepare initial public beta
 
 - Decision: The user explicitly deferred mobile testing and approved continuing with the public release and Community directory process. Mobile remains unverified and is not recorded as passed.

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { detectLanguage, localizeError, translate } from "../src/i18n";
+import { detectLanguage, localizeError, resolveLanguage, translate } from "../src/i18n";
 import { isPasswordLengthValid, MIN_PASSWORD_LENGTH } from "../src/security/password";
 
 test("password setup accepts eight characters and rejects seven", () => {
@@ -14,6 +14,9 @@ test("language detection supports Chinese, English, and Chinese fallback", () =>
   assert.equal(detectLanguage(["zh-CN", "en-US"]), "zh");
   assert.equal(detectLanguage(["en-US", "zh-CN"]), "en");
   assert.equal(detectLanguage(["fr-FR"]), "zh");
+  assert.equal(resolveLanguage("auto", "en-US"), "en");
+  assert.equal(resolveLanguage("auto", "zh-CN"), "zh");
+  assert.equal(resolveLanguage("zh", "en-US"), "zh");
   assert.equal(translate("zh", "command.create"), "创建加密文档");
   assert.equal(translate("en", "command.create"), "Create encrypted document");
   assert.equal(translate("zh", "modal.passwordMin", { min: 8 }), "密码至少需要 8 位。");

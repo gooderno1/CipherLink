@@ -18,4 +18,10 @@ Reviewed against the official Obsidian submission and plugin-guideline documenta
 - [ ] Execute the isolated-vault sequence in [`MOBILE_ACCEPTANCE.md`](MOBILE_ACCEPTANCE.md) on each claimed mobile platform. Mobile acceptance was explicitly deferred by the user on 2026-07-15, is not claimed as passed, and does not block this beta by that decision.
 - [ ] Auto, Chinese, and English interfaces are checked across setup, settings, editor, and commands.
 - [x] User explicitly approved publishing the release and proceeding toward Community directory submission on 2026-07-15.
-- [ ] Submit the repository through the account-authenticated Obsidian Community directory portal and record the review URL or status.
+- [x] Community directory entry is live; automated review for `0.1.0` at commit `4c4d17e` is pending.
+
+## Automated review follow-up
+
+- The initial incomplete review recommends GitHub artifact attestations, avoiding whole-vault enumeration, and avoiding browser storage.
+- `v0.1.1-dev.1` adds attestations for future release assets, replaces the direct language-value browser-storage read with Obsidian's public `getLanguage()` API, and limits envelope resolution/migration checks to known or same-folder files.
+- The current `0.1.0` release remains unchanged while its automated review is running.

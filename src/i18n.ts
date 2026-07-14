@@ -267,15 +267,13 @@ export function detectLanguage(candidates: readonly string[]): UiLanguage {
   return "zh";
 }
 
-export function resolveLanguage(preference: LanguagePreference): UiLanguage {
+export function resolveLanguage(
+  preference: LanguagePreference,
+  obsidianLanguage?: string,
+): UiLanguage {
   if (preference !== "auto") return preference;
   const candidates: string[] = [];
-  try {
-    const obsidianLanguage = window.localStorage.getItem("language");
-    if (obsidianLanguage) candidates.push(obsidianLanguage);
-  } catch {
-    // Local storage may be unavailable during early startup.
-  }
+  if (obsidianLanguage) candidates.push(obsidianLanguage);
   if (typeof document !== "undefined" && document.documentElement.lang) {
     candidates.push(document.documentElement.lang);
   }

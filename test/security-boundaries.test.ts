@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 import {
   requireAgeObjectPath,
@@ -36,4 +37,16 @@ test("gateway URLs require HTTPS except for loopback development", () => {
   ]) {
     assert.throws(() => requireGatewayBaseUrl(value));
   }
+});
+
+test("runtime avoids browser storage and whole-vault Markdown enumeration", async () => {
+  const i18n = await readFile("src/i18n.ts", "utf8");
+  const main = await readFile("src/main.ts", "utf8");
+  const envelope = await readFile("src/envelope/envelope.ts", "utf8");
+  assert.equal(i18n.includes("localStorage"), false);
+  assert.equal(i18n.includes("sessionStorage"), false);
+  assert.equal(main.includes("getMarkdownFiles"), false);
+  assert.equal(envelope.includes("getMarkdownFiles"), false);
+  assert.match(main, /file\.parent\?\.children/);
+  assert.match(main, /workspace\.getActiveFile\(\)/);
 });
