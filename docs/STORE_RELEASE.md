@@ -18,7 +18,7 @@ Reviewed against the official Obsidian submission and plugin-guideline documenta
 - [ ] Execute the isolated-vault sequence in [`MOBILE_ACCEPTANCE.md`](MOBILE_ACCEPTANCE.md) on each claimed mobile platform. Mobile acceptance was explicitly deferred by the user on 2026-07-15, is not claimed as passed, and does not block this beta by that decision.
 - [ ] Auto, Chinese, and English interfaces are checked across setup, settings, editor, and commands.
 - [x] User explicitly approved publishing the release and proceeding toward Community directory submission on 2026-07-15.
-- [x] Community submission is live; automated review for `0.1.0` at commit `4c4d17e` completed without failed checks.
+- [x] Community submission is live and `cipher-link` is present in the official `obsidianmd/obsidian-releases` directory; automated review completed without failed checks. Obsidian staff manual review remains pending and is not claimed as complete.
 
 ## Automated review follow-up
 

@@ -18,7 +18,7 @@ Deliver a store-ready general Obsidian plugin that keeps selected metadata visib
 
 ## Current iteration
 
-This iteration implements C0-C5 with synthetic data. The key desktop GUI flows and the final `0.1.1` clean-vault persistence sequence passed user acceptance on 2026-07-15. The public repository and verified GitHub releases are available; the Community submission is live, its automated review is complete, and C6 is awaiting official directory inclusion.
+This iteration implements C0-C6 with synthetic data. The key desktop GUI flows and the final `0.1.1` clean-vault persistence sequence passed user acceptance on 2026-07-15. The public repository and verified GitHub releases are available, and CipherLink is listed in the official Community directory. Automated review is complete; Obsidian staff manual review remains pending and is disclosed by the directory entry.
 
 Automated acceptance for C0-C5 passed on 2026-07-14. Desktop GUI acceptance covers the standalone synthetic-data workflow; mobile behavior and real gateway deployment are not implied by that result.
 
