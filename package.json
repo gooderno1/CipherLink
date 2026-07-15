@@ -1,6 +1,6 @@
 {
   "name": "cipher-link",
-  "version": "0.1.1-dev.6",
+  "version": "0.1.1",
   "private": true,
   "description": "Encrypted Obsidian notes with visible metadata, native links, and optional gateway storage",
   "repository": {

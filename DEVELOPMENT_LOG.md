@@ -1,5 +1,12 @@
 # Development log
 
+## [2026-07-15] 0.1.1 release: harden native editor integration
+
+- Scope: Promote the developer- and user-accepted `v0.1.1-dev.6` build without runtime changes. The patch addresses Community review recommendations, removes whole-vault/browser-storage use, adds release attestations, fixes source/CSS warnings, enforces the public-envelope write boundary, and uses Obsidian's shared CodeMirror/Lezer runtimes.
+- User acceptance: The user completed setup, encrypted-note creation, secure editing, lock, full Obsidian restart, locked reopen, password unlock, body recovery, and configured-folder placement in a fifth zero-state vault on Obsidian 1.10.6.
+- Persistence evidence: Three public envelopes exactly matched the allowed format and referenced three distinct age objects with no orphans. Two edited objects grew from the 200-byte empty-body form to 228 and 229 bytes. Ordinary Markdown contained no private-body lines; plugin data contained only non-secret configuration; the protected identity contained age ciphertext rather than a password or private key; and no temporary, backup, browser-storage, password, private-identity, or plaintext-body files were found.
+- Release boundary: Mobile acceptance remains explicitly deferred and unclaimed. Real gateway deployment is still pending. Publish only after the final local suite, GitHub CI, tag workflow, asset attestations, and downloaded-asset hashes pass.
+
 ## [2026-07-15] v0.1.1-dev.6 fix(build): use Obsidian editor runtimes
 
 - Trigger: In the fourth clean vault, encrypted objects and envelopes were created but opening either envelope failed and Obsidian restored an empty leaf. The user asked for developer-run testing before any further acceptance request.

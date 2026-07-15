@@ -18,7 +18,7 @@ Deliver a store-ready general Obsidian plugin that keeps selected metadata visib
 
 ## Current iteration
 
-This iteration implements C0-C5 with synthetic data. The key desktop GUI flows passed user acceptance on 2026-07-15. The public repository and verified `0.1.0` GitHub release are available; the Community submission is live, its automated review is complete, and C6 is awaiting official directory inclusion plus `0.1.1` patch acceptance.
+This iteration implements C0-C5 with synthetic data. The key desktop GUI flows and the final `0.1.1` clean-vault persistence sequence passed user acceptance on 2026-07-15. The public repository and verified GitHub releases are available; the Community submission is live, its automated review is complete, and C6 is awaiting official directory inclusion.
 
 Automated acceptance for C0-C5 passed on 2026-07-14. Desktop GUI acceptance covers the standalone synthetic-data workflow; mobile behavior and real gateway deployment are not implied by that result.
 
@@ -39,6 +39,8 @@ The 2026-07-15 desktop regression passed. The apparent default text was the inte
 `v0.1.0-dev.8` hardens the public-release boundary: identity storage follows `Vault.configDir`, identity import has no private-project default, local object references reject absolute/traversing/non-`.md.age` paths, and non-loopback gateways require HTTPS. CI, release notes, and private vulnerability reporting are prepared for the public repository.
 
 `0.1.0` promotes that reviewed build to the initial public beta without changing runtime behavior. Release metadata adds explicit privacy, network, desktop acceptance, and deferred-mobile disclosures.
+
+`0.1.1` addresses the completed Community review findings and the clean-vault persistence regressions found during follow-up acceptance. The public envelope is protected by highest-precedence read-only attributes and user-transaction filtering, shared CodeMirror/Lezer cores come from Obsidian's runtime, and loading cannot buffer keystrokes into the public document. Developer-controlled Obsidian 1.10.6 automation and a separate user clean-vault sequence both passed; the post-test scan found exact public envelopes, one-to-one age objects, encrypted body growth, and no plaintext-shaped files outside `.age` objects.
 
 ## Required format coverage
 
